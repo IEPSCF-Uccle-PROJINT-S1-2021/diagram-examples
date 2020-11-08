@@ -1,0 +1,90 @@
+@startuml architecture1
+left to right direction
+node "Developer computer" <<device>> {
+    node Node.js <<execution environment>> {
+        node Express <<application server>> {
+            artifact "Server-side\nJavaScript" as app
+            artifact "Pug templates" as tmpl
+            artifact "CSS stylesheets" as css
+            artifact "Client-side\nJavaScript" as js
+            node SQLite <<database system>> {
+                database "Library DB" as db
+            }
+        }
+    }
+    node Browser {
+        artifact "Web pages"
+    }
+}
+tmpl -[hidden]- app
+css -[hidden]- app
+js -[hidden]- app
+app -- db
+Browser -- Express : HTTP
+@enduml
+
+@startuml architecture2
+left to right direction
+node "Application server" <<device>> {
+    node Node.js <<execution environment>> {
+        node Express <<application server>> {
+            artifact "Server-side\nJavaScript" as app
+            artifact "Pug templates" as tmpl
+            artifact "CSS stylesheets" as css
+            artifact "Client-side\nJavaScript" as js
+        }
+    }
+}
+node "Database server" <<device>> {
+    node PostgreSQL <<database system>> {
+        database "Library DB" as db
+    }
+}
+node "User computer" <<device>> {
+    node Browser {
+        artifact "Web pages"
+    }
+}
+tmpl -[hidden]- app
+css -[hidden]- app
+js -[hidden]- app
+app -- db
+Browser -- Express : HTTP
+@enduml
+
+@startuml architecture3
+left to right direction
+cloud "Amazon Web Services" {
+    storage "Amazon Virtual Private Cloud" {
+        node "Application server" <<EC2 instance>> as ec2 {
+            node Node.js <<execution environment>> {
+                node Express <<application server>> {
+                    artifact "Server-side\nJavaScript" as app
+                    artifact "Pug templates" as tmpl
+                }
+            }
+        }
+        node "Database server" <<RDS instance>> as rds {
+            node SQLite <<database system>> {
+                database "Library DB" as db
+            }
+        }
+        storage "Static storage" <<Amazon S3>> as s3 {
+            artifact "CSS stylesheets" as css
+            artifact "Client-side\nJavaScript" as js
+        }
+        node "Reverse proxy" <<Elastic Load Balancer>> as elb
+    }
+    node "Content Delivery Network" <<Amazon Cloudfront>> as rproxy
+}
+node "User computer" <<device>> {
+    node Browser {
+        artifact "Web pages"
+    }
+}
+app -- db
+Browser -- rproxy : HTTPS
+rproxy -- elb : HTTP
+elb -- Express : HTTP
+rproxy -- s3 : HTTPS
+@enduml

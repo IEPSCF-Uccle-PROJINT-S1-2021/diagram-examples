@@ -1,0 +1,24 @@
+@startdot navigation
+digraph G {
+    graph [fontname="Calibri", fontsize=18]
+    node [fontname="Calibri", fontsize=18, shape="note", colorscheme="ylorbr3", style="filled"];
+    edge [fontname="Calibri", fontsize=18, arrowhead="vee"];
+    ranksep=1.5;
+    nodesep=2;
+
+    Home [fillcolor=1]
+    Login [fillcolor=2]
+    "Book list" [fillcolor=2]
+    "Book details" [fillcolor=3]
+    "Edit book" [fillcolor=3]
+
+    Home -> Login;
+    Home -> Home [label="Logout"];
+    Home -> "Book list";
+    "Book list" -> "Book details";
+    "Book details" -> "Book list" [style="dashed"];
+    "Book list" -> "Book list" [label="Delete book"];
+    "Book list" -> "Edit book";
+    "Edit book" -> "Book list" [style="dashed"];
+}
+@enddot

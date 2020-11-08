@@ -1,0 +1,21 @@
+@startuml
+actor "Utilisateur" as user
+actor "Administrateur" as admin
+usecase "Rechercher un livre" as UC1
+usecase "Emprunter un livre" as UC2
+usecase "Créer un livre" as UC3
+usecase "Supprimer un livre" as UC4
+usecase "S'authentifier" as UC5
+user <|-- admin
+user -r-> UC1
+user -r-> UC2
+admin -r-> UC3
+admin -r-> UC4
+UC1 .r.> UC5 : extends
+UC2 .r.> UC5 : extends
+UC3 .r.> UC5 : extends
+UC4 .r.> UC5 : extends
+UC1 -[hidden]d-> UC2
+UC2 -[hidden]d-> UC3
+UC3 -[hidden]d-> UC4
+@enduml

@@ -1,0 +1,116 @@
+@startuml wrong-diagram
+class User {
+    -id : Number
+    -firstName : String
+    -lastName : String
+    -dateOfBirth : Date
+    -locationOfBirth : String
+    -emailAddress : String
+    -hashedPassword : String
+    +getId() : Number
+    +getFirstName() : String
+    +setFirstName(firstName : String) : void
+    +getLastName() : String
+    +setLastName(lastName : String) : void
+    +getDateOfBirth() : Date
+    +setDateOfBirth(dateOfBirth : Date) : void
+    +getLocationOfBirth() : String
+    +setLocationOfBirth(locationOfBirth : String) : void
+    +getEmailAddress() : String
+    +setEmailAddress(emailAddress : String) : String
+    +validPassword(passwordToTest) : boolean
+    +setPassword(cleartextPassword : String) : void
+    +getAddresses() : Set<Address>
+    +addAddress(address) : void
+    +removeAddress(address) : void
+    +getRoles() : Set<Role>
+    +addRole(role : Role) : void
+    +removeRole(role : Role) : void
+    +can(permissionName): boolean
+    +borrowCopy(bookCopy : BookCopy) : Borrowing
+}
+class Address {
+    -id : Number
+    -streetAddress : String
+    -postalCode : String
+    -city : String
+    -country : String
+    +getId() : Number
+    +getStreetAddress() : String
+    +setStreetAddress(streetAddress : String) : void
+    +getPostalCode() : String
+    +setPostalCode(postalCode : String) : void
+    +getCity() : String
+    +setCity(city : String) : void
+    +getCountry() : String
+    +setCountry(country : String) : void
+}
+class Book {
+    -id : Number
+    -title : String
+    -publisher : String
+    -datePublished : Number
+    -publisherLocation : String
+    -ISBN : Number
+    +getId() : Number
+    +getTitle() : String
+    +setTitle(title : String) : void
+    +getPublisher() : String
+    +setPublisher(publisher : String) : void
+    +getDatePublished() : Date
+    +setDatePublished(datePublished : Date) : void
+    +getPublisherLocation() : String
+    +setPublisherLocation(publisherLocation : String) : void
+    +getISBN() : Number
+    +setISBN(isbn : Number) : void
+}
+class BookCopy {
+    -id : Number
+    +getId() : Number
+}
+class Author {
+    -id : Number
+    -firstName : String
+    -lastName : String
+    -dateOfBirth : Date
+    -dateOfDeath : Date
+    +getId() : String
+    +getFirstName() : String
+    +setFirstName(firstName : String) : void
+    +getLastName() : String
+    +setLastName(lastName : String) : void
+    +getDateOfBirth() : Date
+    +setDateOfBirth(dateOfBirth : String) : void
+    +getDateOfDeath() : Date
+    +setDateOfDeath(dateOfDeath : Date) : void
+}
+class Borrowing {
+    -id : Number
+    -dateOfBorrowing : Date
+    -dateOfReturn : Date
+    +getId() : Number
+    +getDateOfBorrowing() : Date
+    +setDateOfBorrowing(dateOfBorrowing : Date) : void
+    +getDateOfReturn() : Date
+    +returnCopy(dateOfReturn : Date) : void
+}
+class Permission {
+    -name : String
+    +getName() : String
+}
+class Role {
+    -name : String
+    +getName() : String
+    +getPermissions() : Set<Permission>
+    +addPermission(permission : Permission) : void
+    +removePermission(permission : Permission) : void
+    +can(permissionName): boolean
+}
+Author <-- Book
+Book o- BookCopy
+BookCopy <- Borrowing
+Borrowing -o User
+Address <--o User
+User o-> Role
+Role *-> Permission
+@enduml

@@ -1,0 +1,102 @@
+@startuml overview
+class User {
+}
+class Address {
+}
+class Book {
+}
+class BookCopy {
+}
+class Author {
+}
+class Borrowing {
+}
+class Permission {
+}
+class Role {
+}
+Author <-- Book
+Book o- BookCopy
+BookCopy <- Borrowing
+Borrowing -o User
+Address <--o User
+User o-> Role
+Role *-> Permission
+@enduml
+
+@startuml user-details
+class User {
+    -id : Number
+    -firstName : String
+    -lastName : String
+    -dateOfBirth : Date
+    -locationOfBirth : String
+    -emailAddress : String
+    -hashedPassword : String
+    +addAddress(address : Address) : void
+    +removeAddress(address : Address) : void
+    +addRole(role : Role) : void
+    +removeRole(role : Role) : void
+    +can(permissionName): boolean
+}
+class Address {
+    -id : Number
+    -streetAddress : String
+    -postalCode : String
+    -city : String
+    -country : String
+}
+class Permission {
+    -name : String
+}
+class Role {
+    -name : String
+    +addPermission(permission : Permission) : void
+    +removePermission(permission : Permission) : void
+    +can(permissionName): boolean
+}
+User o-> Role
+Role *-> Permission
+User o--> Address
+@enduml
+
+@startuml book-details
+class User {
+    -id : Number
+    -firstName : String
+    -lastName : String
+    -dateOfBirth : Date
+    -locationOfBirth : String
+    -emailAddress : String
+    -hashedPassword : String
+    +borrowCopy(bookCopy : BookCopy) : Borrowing
+}
+class Book {
+    -id : Number
+    -title : String
+    -publisher : String
+    -datePublished : Number
+    -publisherLocation : String
+    -ISBN : Number
+}
+class BookCopy {
+    -id : Number
+}
+class Author {
+    -id : Number
+    -firstName : String
+    -lastName : String
+    -dateOfBirth : Date
+    -dateOfDeath : Date
+}
+class Borrowing {
+    -id : Number
+    -dateOfBorrowing : Date
+    -dateOfReturn : Date
+    +returnCopy(dateOfReturn : Date) : void
+}
+Author <-- Book
+Book o- BookCopy
+BookCopy <- Borrowing
+User o-- Borrowing
+@enduml

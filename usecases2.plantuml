@@ -1,0 +1,36 @@
+@startuml
+left to right direction
+actor "Anonyme" as anon
+actor "Lecteur" as reader
+actor "Bibliothécaire" as librarian
+actor "Technicien informatique" as admin
+rectangle "Bibliothèque" {
+    usecase "S'authentifier" as UC1
+    usecase "S'enregistrer" as UC2
+    usecase "Rechercher un livre" as UC3
+    usecase "Emprunter un livre" as UC4
+    usecase "Éditer un livre" as UC5
+    usecase "Encoder un livre" as UC6
+    usecase "Déclasser un livre" as UC7
+    usecase "Supprimer un livre" as UC8
+    usecase "Gérer les droits d'accès" as UC9
+}
+UC1 <-- anon
+UC2 <-- anon
+reader ---> UC3
+reader --> UC4
+UC4 ..> UC3 : includes
+librarian --> UC5
+UC5 ..> UC3 : includes
+librarian --> UC6
+UC5 .> UC6 : extends
+librarian --> UC7
+UC6 -[hidden]r-> UC7
+UC7 ..> UC3 : includes
+UC8 <-- admin
+UC3 <.. UC8 : includes
+UC9 <-- admin
+UC3 -[hidden]-> UC9
+UC3 -[hidden]-> UC1
+UC3 -[hidden]-> UC2
+@enduml
